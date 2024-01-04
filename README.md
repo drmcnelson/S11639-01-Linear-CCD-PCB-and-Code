@@ -1,5 +1,7 @@
 # S11639-01-Linear-CCD-PCB-and-Code
-PCB and Code for the Hamamatsu S11639-01 Linear CCD with 16 bit ADC and SPI interface.  The system can be used with Arduino, Teensy or Raspberry Pi that have sufficient number of digital lines and sufficient performace for interrupts and SPI.  Caveat:  This is a design and has not yet been built.
+PCB and Code for the Hamamatsu S11639-01 Linear CCD with 16 bit ADC and SPI interface.  The system can be used with Arduino, Teensy or Raspberry Pi that have sufficient number of digital lines and sufficient performace for interrupts and SPI.
+
+Caveat:  This is a design only, we are at present building first articles.
 
 WORK IN PROGRESS
 
