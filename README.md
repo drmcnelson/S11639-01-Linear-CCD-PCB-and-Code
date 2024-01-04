@@ -8,7 +8,7 @@ The Hamamatsu S11639-01 is a highly sensitive linear CCD with a quantum efficien
 
 ## Electrical
 ### Signal
-The [S11639-01 datasheet](https://www.hamamatsu.com/content/dam/hamamatsu-photonics/sites/documents/99_SALES_LIBRARY/ssd/s11639-01_kmpd1163e.pdf) provides the following electrical and optical characteristics on page 2.  Note that the clock can be from 200KHz to 10MHz, the output is positive going, and there is a large variation in output impedance, offset and saturation.   The latter means that we have to accomodate signals with a range between 0.3V to 2.3V and 0.9V to 3.4V with output impedance from 70 to 260 ohms (a factor of almost 4), and match the signal to the input range of our 16bit ADC.
+The [S11639-01 datasheet](https://www.hamamatsu.com/content/dam/hamamatsu-photonics/sites/documents/99_SALES_LIBRARY/ssd/s11639-01_kmpd1163e.pdf) provides the following electrical and optical characteristics on page 2.  Note that the clock can be from 200KHz to 10MHz, the output is positive going, and there is a large variation in output impedance, offset and saturation.   The latter means that we have to accomodate a range of 0.3V to 3.4V with output impedance from 70 to 260 ohms (a factor of almost 4), and match the signal to the input range of our 16bit ADC.
 
 ![image](https://github.com/drmcnelson/S11639-01-Linear-CCD-PCB-and-Code/assets/38619857/998c54a0-a48c-4cc0-90cc-10f83ad4ebfb)
 
