@@ -1,9 +1,7 @@
 # S11639-01-Linear-CCD-PCB-and-Code
 PCB and Code for the Hamamatsu S11639-01 Linear CCD with 16 bit ADC and SPI interface.  The system can be used with Arduino, Teensy or Raspberry Pi that have sufficient number of digital lines and sufficient performace for interrupts and SPI.
 
-Caveat:  This is a design only, we are at present building first articles.
-
-WORK IN PROGRESS
+Caveat: WORK IN PROGRESS  First build is in progress now.
 
 ## Introduction
 The Hamamatsu S11639-01 is a highly sensitive linear CCD with a quantum efficiency of about 0.8 and a dynamic range of 10,000 with saturation voltage at 2.0V (typical) and dark at 0.2mV (typical).  Compared to low cost linear CCDs, such as the TCD1304 and IXL511, the Hamamatsu is 8 to 10 times more sensitive and the dynamic range is 30 times larger.  This puts the S11639-01 in the ballpark of some of some of the high end CCD systems sold to research laboratories.  The board desribed here may be a cost effective alternative at about $50 for the BOM pluse about $400 for the sensor.  Our task then is to deliver the sensitivity and dynamic range of the Hamamatsu sensor along with firmware and software support for a rich set of triggered, gated and clocked operations.
