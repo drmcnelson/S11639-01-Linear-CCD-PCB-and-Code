@@ -31,7 +31,9 @@ The following timing diagrams appear on page 5 and 6 of the S11639-0 datasheet. 
 ![image](https://github.com/drmcnelson/S11639-01-Linear-CCD-PCB-and-Code/assets/38619857/2908a0fc-5c88-4da0-84a4-8e4f050bc7ad)
 
 #### ADC timing
-For the ADC, we have the following diagrams from pages 37 and  41 of the MCP33131D datasheet.  The input is sampled onto two capacitors (positive and negative side) until the rising edge of CNVST.  The signal is then locked and the ADC proceeds with conversion.  The conversion is completed in 700ns and the data word is available for transfer over SPI.  This of course, has to be repeated until the 2048 word sensor frame is completed.
+For the ADC, we have the following diagrams from pages 37 and  41 of the
+[MCP33131D datasheet](https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/MCP33131D-Data-Sheet-DS20005947B.pdf).
+The input is sampled onto two capacitors (positive and negative side) until the rising edge of CNVST.  The signal is then locked and the ADC proceeds with conversion.  The conversion is completed in 700ns and the data word is available for transfer over SPI.  This of course, has to be repeated until the 2048 word sensor frame is completed.
 
 ![image](https://github.com/drmcnelson/S11639-01-Linear-CCD-PCB-and-Code/assets/38619857/21d1a17f-d1fa-41a8-bd21-e409523d1ecc)
 
