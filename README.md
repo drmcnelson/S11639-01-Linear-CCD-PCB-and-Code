@@ -1,5 +1,5 @@
 # S11639-01-Linear-CCD-PCB-and-Code
-PCB and Code for the Hamamatsu S11639-01 Linear CCD with 16 bit ADC and SPI interface.  The system can be used with microcontrollers (e.g.,Teensy 4.0) that provide SPI and digital I/O pins with sufficient speed for transfers and interrupt response time.
+PCB, firmware and host software for the Hamamatsu S11639-01 Linear CCD with 16 bit ADC and SPI interface, intended for Arduino, Teensy and Raspberry family devices that have sufficient performance for interrupts and data transfers.
 
 The directories have KiCAD files for the sensor board, and for a carrier for a Teensy 4.0 with connectors matching the sensor board.  The envisioned interconnect is a short (e.g. 2") 20 pin ribbon cable for logic signals and $\mathrm V_D$ and a two wire cable for 5V power.
 
@@ -7,6 +7,11 @@ Caveat: WORK IN PROGRESS.  Files were recently sent for FAB.
 
 ## Introduction
 The Hamamatsu S11639-01 is a highly sensitive linear CCD with a [quantum efficiency of about 0.8](https://ibsen.com/wp-content/uploads/Tech-Note-Quantum-efficiency-conversion-note-1.pdf) and a dynamic range of 10,000 with saturation voltage at 2.0V (typical) and dark at 0.2mV (typical).  Compared to low cost linear CCDs, such as the TCD1304 and IXL511, the Hamamatsu is 8 to 10 times more sensitive and the dynamic range is 30 times larger.  This puts the S11639-01 in the ballpark of some of some of the high end CCD systems sold to research laboratories.  The board described here may be a cost effective alternative at about $50 for the BOM pluse about $400 for the sensor.  Our task then is to deliver the sensitivity and dynamic range of the Hamamatsu sensor along with firmware and software support for a rich set of triggered, gated and clocked operations.
+
+In this repository we also provide design files for a carrier for a Teensy 4.0 with connectors matching those on the S11639-01 sensor board.
+There are probably many boards in the Arduino and Raspberry Pi families that would be suitable as a host for this S11639-01 sensor board with respect to acquiring the frames into the micrcontroller
+We choose the Teensy 4.0 because it has a high speed USB so that data transfers from the microcontroller to its host, typically a desktop machine, are much faster than the readout from the sensor board into the microcontroller.
+
 
 ## Electrical
 ### Signal
