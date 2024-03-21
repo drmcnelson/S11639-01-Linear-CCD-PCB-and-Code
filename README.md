@@ -25,24 +25,27 @@ The following approach exploits conversion to differential to provide a low nois
 
 ![CCDbufferTypCase](https://github.com/drmcnelson/S11639-01-Linear-CCD-PCB-and-Code/assets/38619857/d2938130-6e73-46d5-802d-ec7fc1c31b6b)
 
-### Timing
-The following timing diagrams appear on page 5 and 6 of the S11639-0 datasheet. The integration interval is described as equal to the time during which the ST pin is high (start pulse width) plus another 48 clock cycles.  Output then appears on the video pin and for each pixel the sensor asserts TRIG to signal that the value is ready to be sampled.  This continues for the 2048 word record and the sensor then asserts EOS to signal the end of the record.
+### Sampling
+The S11639-01 provides a signal TRG which can be used to signal an ADC to begin converting the signal as it is clocked from the sensor.  The datasheet on page 4, provides the following figure showing the CLK, TRG and video output with the sensor clocked at 1MHz.  Notice that the TRG is asserted at 500ns into the clock period and remains high until the start of the video signal at the next clock.  
+
+![image](https://github.com/drmcnelson/S11639-01-Linear-CCD-PCB-and-Code/assets/38619857/fe1ddd87-2392-464e-a7e1-d3cad37eb222)
+
+#### ADC timing
+For the ADC, the timing is summarized in the following diagrams from pages 37 of the
+[MCP33131D datasheet](https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/MCP33131D-Data-Sheet-DS20005947B.pdf).
+While the times shown there are 700 ns acquisition, 700 ns conversion, and data transfer in the next 300ns during acquisition, these are typical and not the maximum values.  Also of note, transferring 16 bits in 300 ns implies an SPI operating at greater than 50MHz.
+
+![image](https://github.com/drmcnelson/S11639-01-Linear-CCD-PCB-and-Code/assets/38619857/7b15ad43-2d47-422e-bbd5-d9815b17d731)
+
+
+In so far as the ADC makes data available only after the convert signal is deasserted, controlling the ADC directly from the TRG signal would require conversion in the 500 ns and transfer in 500 ns.  Therefore we control the timing from the MCU.
+
+### Exposure
+The exposure time is controlled by asserting the input pin ST, as illustrated in the follow figures from pages 4 and 5 of the datasheet.  The exposure interval is described as equal to the time during which the ST pin is high (start pulse width) plus another 48 clock cycles.  Output then appears on the video pin.  Note again the assertion of TRG with each pixel in th video output.  At the end of the 2048 element record, the EOS pin is asserted for one or two clock cycles.
 
 ![image](https://github.com/drmcnelson/S11639-01-Linear-CCD-PCB-and-Code/assets/38619857/309ec305-8dee-475f-9f3f-8bd6a03be575)
 
 ![image](https://github.com/drmcnelson/S11639-01-Linear-CCD-PCB-and-Code/assets/38619857/2908a0fc-5c88-4da0-84a4-8e4f050bc7ad)
-
-#### ADC timing
-For the ADC, we have the following diagrams from pages 37 and  41 of the
-[MCP33131D datasheet](https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/MCP33131D-Data-Sheet-DS20005947B.pdf).
-The input is sampled onto two capacitors (positive and negative side) until the rising edge of CNVST.  The signal is then locked and the ADC proceeds with conversion.  The conversion is completed in 700ns and the data word is available for transfer over SPI.  This of course, has to be repeated until the 2048 word sensor frame is completed.
-
-![image](https://github.com/drmcnelson/S11639-01-Linear-CCD-PCB-and-Code/assets/38619857/21d1a17f-d1fa-41a8-bd21-e409523d1ecc)
-
-![image](https://github.com/drmcnelson/S11639-01-Linear-CCD-PCB-and-Code/assets/38619857/24a460e8-97a7-4456-9b05-4b521795b1f2)
-
-#### Integration
-The sensor's TRIG and EOS signal provide a convenience in that data word acquisition can be tied to the TRIG signal and frame level processing tied to the EOS signal.  in our design we connect the trig signal from the sensor to the CNVST input of the ADC and to a digital input pin on the host which we connect to an interrupt to trigger the SPI transfer after a 700ns delay.  The EOS is connected to another pin on the host and triggers frame level processing, e.g. transferring completed frames from the microntroller to its desktop host.
 
 ### Design files
 The following shows the layout for the board.   The header in the lower left sets Vref and the supply voltage for the analog section, pins 2-3 should be jumpered to use the internal reference.  The trim pot adjust the offset level in the analog circuit, there are two test points to the right of the trim pot, and the three pin header in the middle duplicates the analog signals delivered to the ADC. The header across the top of the board presents the four lines from the sensor, CLK, ST, TRIG and EOS and the four SPI lines from the ADC. The VD pins on this header power the external side of the logic level converters and the SPI side of the ADC.   The small jumper below this header connects the ADC CNVST input to the sensor TRIG line or routs CNVST to the host. 
