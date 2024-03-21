@@ -1,0 +1,103 @@
+version
+read 10000
+read 1000
+read 100
+read 10000
+read 100000
+read 10000
+read 10 100000
+read 10 10000
+read 10 1000
+stop
+read 1000
+read 10000
+read 1000
+read 100
+read 200
+read 2000
+read 20000
+read 200000
+read 2000000
+read 20000
+read 200
+read 300
+read 400
+read 500
+read 1000
+read 2000
+read 3000
+read 40
+read 5000
+read 3 5000
+read 3 6000
+read 3 6000 1000
+clock 6000 100000
+stop
+set background off
+help
+baseline off
+clock 6000 10000
+q
+set ascii
+clock 6000 100000
+stop
+clock 6000 10000 100000
+stop
+baseline off
+dump
+clock 6000 10000 100000
+stop
+clock 6000 1000 100000
+q
+clock 6000 1000 100000
+stop
+q
+clock 6000 1000 100000
+atop
+stop
+clock 6000 5000 100000
+stop
+clock 6000 2500 100000
+clock 6000 5000 100000
+clock 6000 2500 100000
+stop
+q
+clock 6000 2500 100000
+q
+clock 6000 2500 100000
+q
+clock 6000 2500 100000
+stop
+clock 6000 2500 100000
+stop
+basline off
+baseline off
+clock 6000 2500 100000
+stop
+read 10000
+set ascii
+read 10000
+q
+clock 6000 2500 100000
+stop
+q
+clock 6000 2500 100000
+q
+clock 6000 2500 100000
+q
+clock 6000 2500 100000
+q
+clock 6000 2500 100000
+q
+clock 6000 2500 100000
+q
+clock 6000 2500 100000
+q
+clock 6000 2500 100000
+q
+clock 6000 2500 100000
+q
+read 10000
+read 1000 5000 100000
+clock 1000 5000 100000
+q
