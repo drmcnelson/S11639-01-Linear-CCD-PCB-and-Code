@@ -620,7 +620,8 @@ unsigned int check_eos_counter = 0;
 */
 
 
-#define ISRPIN fMPinMonitor
+//#define ISRPIN fMPinMonitor
+#define ISRPIN TRGPin
 #define ISREDGE RISING
 void S1163901_TRG_isr();
 
@@ -698,21 +699,15 @@ void S1163901_TRG_isr()
       */
 
       // Wait for the video output to stabilize
-      raw_elapsed_cycles_start();
+      //raw_elapsed_cycles_start();
       
 #ifdef TESTING
       digitalWriteFast(sparePin,HIGH);
-      digitalWriteFast(sparePin,LOW);
-#endif
-      
-#ifdef FASTISR
-      while( raw_elapsed_cycles() < NANOSECS_TO_CYCLES(125) );
-#else
-      while( raw_elapsed_cycles() < NANOSECS_TO_CYCLES(100) );
 #endif
 
       // Start the ADC acquire, data is ready 730nsec later.
       digitalWriteFast( CNVSTPin, HIGH );
+      //Serial.println("CNVST HIGH");
       
       /* We can lower cnvst early and start the SPI set up.
 	 This works out to data starting at 750nsec
@@ -721,7 +716,12 @@ void S1163901_TRG_isr()
       while( raw_elapsed_cycles() < NANOSECS_TO_CYCLES(580) );
 
       digitalWriteFast( CNVSTPin, LOW );
+      //Serial.println("CNVST LOW");
 
+#ifdef TESTING
+      digitalWriteFast(sparePin,LOW);
+#endif
+      
       /* This is the 16 bit transfer, it takes 150 nsec to setup,
 	 533 nsec for the transfer, and another 100 nsec to return.
 	 Acquire cannot start again until after the 533 nsec.  So
@@ -1105,8 +1105,6 @@ bool start_clocked_frames(unsigned int exposure_usecs,
   
   // connect the sensor isr
   start_S1163901_isr();
-  //is_attached = true;
-  //attachInterrupt(digitalPinToInterrupt(TRGPin), S1163901_TRG_isr, RISING);
   
   // the start clock framset isr takes care of the timer and "is clocked flag"
   start_clocked_frameset_isr();
@@ -1159,8 +1157,6 @@ bool start_clocked_framesets(unsigned int exposure_usecs,
   
   // connect the sensor isr
   start_S1163901_isr();
-  //is_attached = true;
-  //attachInterrupt(digitalPinToInterrupt(TRGPin), S1163901_TRG_isr, RISING);
 
   is_frameset_clocked = true;
   FrameTimer.begin(start_clocked_frameset_isr,frameset_interval_req);
@@ -1198,8 +1194,6 @@ bool start_triggered_frames( unsigned int usecs, unsigned int nframes)
   
   // connect the sensor isr
   start_S1163901_isr();
-  //is_attached = true;
-  //attachInterrupt(digitalPinToInterrupt(TRGPin), S1163901_TRG_isr, RISING);
 
   // connect the single frame isr
   is_frame_triggered = true;
@@ -1236,8 +1230,6 @@ bool start_triggered_clocked_frames( unsigned int exposure_usecs, unsigned int f
   
   // connect the sensor isr
   start_S1163901_isr();
-  //is_attached = true;
-  //attachInterrupt(digitalPinToInterrupt(TRGPin), S1163901_TRG_isr, RISING);
 
   // connect the clock start
   is_frameset_triggered = true;
@@ -1293,8 +1285,6 @@ void stop_sensor()
 {
   if (is_attached) {
     stop_S1163901_isr();
-    //detachInterrupt(digitalPinToInterrupt(TRGPin));
-    //is_attached = false;
   }
   isr_state = READY;
 
@@ -2242,6 +2232,24 @@ bool sensor_cli( char *pc, char **next )
 	storeIdentifier(pc);
 	retv = true;
       }
+    }
+    
+  }
+
+  else if (testkey(pc,"erase",&pc)) {
+
+    if (testkey(pc,"coefficients",&pc)) {
+      eraseCoefficients();
+      retv = true;
+    }
+    
+    else if (testkey(pc,"units",&pc)) {
+      eraseUnits();
+      retv = true;
+    }
+    else if (testkey(pc,"identifier",&pc)) {
+      eraseIdentifier();
+      retv = true;
     }
     
   }
