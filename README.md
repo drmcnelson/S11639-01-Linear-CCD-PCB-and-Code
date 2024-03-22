@@ -31,14 +31,11 @@ The S11639-01 provides a signal TRG which can be used to signal an ADC to begin 
 ![image](https://github.com/drmcnelson/S11639-01-Linear-CCD-PCB-and-Code/assets/38619857/fe1ddd87-2392-464e-a7e1-d3cad37eb222)
 
 #### ADC timing
-For the ADC, the timing is summarized in the following diagrams from pages 37 of the
+ADC operation comprises two phases, signal acquisition during which the chip stores the input voltage as charge on a capacitor bank, followed by data conversion during which the chip converts the latched voltage to a data value.  The timing is summarized in the following diagram from pages 37 of the
 [MCP33131D datasheet](https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/MCP33131D-Data-Sheet-DS20005947B.pdf).
-While the times shown there are 700 ns acquisition, 700 ns conversion, and data transfer in the next 300ns during acquisition, these are typical and not the maximum values.  Also of note, transferring 16 bits in 300 ns implies an SPI operating at greater than 50MHz.
+The times shown there, 300 ns acquisition and 700 ns conversion, are listed in the datasheet as "typical" values.  The CNVST signal can be asserted close to the rising edge in the TRG signal since this is more than 300 nsecs into the video output. SPI transfer can begin 730nsec later.  At 30MHz the 16 bit transfer takes 533nsec followed by 100nsec of overhead.  Since the transfer can run during the acquisition phase, the total time required per pixel is about 1.37usec.
 
 ![image](https://github.com/drmcnelson/S11639-01-Linear-CCD-PCB-and-Code/assets/38619857/7b15ad43-2d47-422e-bbd5-d9815b17d731)
-
-
-In so far as the ADC makes data available only after the convert signal is deasserted, controlling the ADC directly from the TRG signal would require conversion in the 500 ns and transfer in 500 ns.  Therefore we control the timing from the MCU.
 
 ### Exposure
 The exposure time is controlled by asserting the input pin ST, as illustrated in the follow figures from pages 4 and 5 of the datasheet.  The exposure interval is described as equal to the time during which the ST pin is high (start pulse width) plus another 48 clock cycles.  Output then appears on the video pin.  Note again the assertion of TRG with each pixel in th video output.  At the end of the 2048 element record, the EOS pin is asserted for one or two clock cycles.
