@@ -22,7 +22,7 @@
 
   3) Please cite appropriately in any work using this code.
 
- */
+*/
 
 #include "Arduino.h"
 
@@ -47,14 +47,14 @@
 
 //#define TESTING
 
+#define FASTISR
+#define FASTSPI
+
 /* =====================================================================
    Fast ISR support
  */
 
-#define FASTISR
-
 #ifdef FASTISR
-
 #include "imxrt.h"
 #include "pins_arduino.h"
 #define DR_INDEX    0
@@ -109,9 +109,35 @@ SPISettings spi_settings( SPI_SPEED, MSBFIRST, SPI_MODE0);   // 30 MHz, reads 1.
 #define SPI_TO_USECS(nbits) ((nbits*1000)/(SPI_SPEED/1000))
 #define USECS_TO_SPI(usecs) ((usecs*(SPI_SPEED/1000))/1000)
 
+
+//*************************************************************************
+// LPSPI helper functions, from KurtE, Teensy4 Forum
+#ifdef FASTSPI
+
+IMXRT_LPSPI_t *lpspi = &IMXRT_LPSPI4_S;
+
+uint16_t saved_framesz;
+
+static inline uint16_t get_framesz( IMXRT_LPSPI_t *port ) {
+  return (port->TCR & 0x00000fff) + 1;
+}
+
+static inline void set_framesz( IMXRT_LPSPI_t *port, uint16_t nbits ) {
+  port->TCR = (port->TCR & 0xfffff000) | LPSPI_TCR_FRAMESZ(nbits-1); 
+}
+
+static inline uint16_t transfer16( IMXRT_LPSPI_t *port, uint16_t data ) {
+  port->TDR = data;                         // output 16 bit data
+  while (port->RSR & LPSPI_RSR_RXEMPTY) {}  // wait while RSR fifo is empty
+  return port->RDR;                         // return data read
+}
+#endif
+
 // ==================================================================
 // ADC requires 730ns sampling, so this is about as good as it gets
-#ifdef FASTISR
+#if defined FASTISR && defined FASTSPI
+#define MASTER_CLOCK 660000
+#elif defined FASTISR
 #define MASTER_CLOCK 600000
 #else
 #define MASTER_CLOCK 500000
@@ -696,39 +722,33 @@ void S1163901_TRG_isr()
       /* Note: if any changes are made in this part of the state
 	 machine, check it with the scope, trigger on eos, and
 	 make sure it stays in sync all the way to eos.
-      */
 
-      // Wait for the video output to stabilize
-      //raw_elapsed_cycles_start();
-      
-#ifdef TESTING
-      digitalWriteFast(sparePin,HIGH);
-#endif
-
-      // Start the ADC acquire, data is ready 730nsec later.
-      digitalWriteFast( CNVSTPin, HIGH );
-      //Serial.println("CNVST HIGH");
-      
-      /* We can lower cnvst early and start the SPI set up.
-	 This works out to data starting at 750nsec
-      */
-      raw_elapsed_cycles_start();
-      while( raw_elapsed_cycles() < NANOSECS_TO_CYCLES(580) );
-
-      digitalWriteFast( CNVSTPin, LOW );
-      //Serial.println("CNVST LOW");
-
-#ifdef TESTING
-      digitalWriteFast(sparePin,LOW);
-#endif
-      
-      /* This is the 16 bit transfer, it takes 150 nsec to setup,
-	 533 nsec for the transfer, and another 100 nsec to return.
+	 The 16 bit transfer over SPI takes
+	 150 nsec to setup, or 40nsec in fast spi.
+	 533 nsec for the transfer,
+	 100 nsec to return in either SPI mode
 	 Acquire cannot start again until after the 533 nsec.  So
 	 not much savings availabe more than the above.
       */
-      bufferp[readout_counter++] = SPI.transfer16(0xFFFF);
+
+      // Start the ADC acquire, data is ready 730nsec later.
+      digitalWriteFast( CNVSTPin, HIGH );
       
+      raw_elapsed_cycles_start();      
+
+#ifdef FASTSPI
+      while( raw_elapsed_cycles() < NANOSECS_TO_CYCLES(650) );
+#else
+      while( raw_elapsed_cycles() < NANOSECS_TO_CYCLES(580) );
+#endif     
+
+      digitalWriteFast( CNVSTPin, LOW );
+
+#ifdef FASTSPI
+      bufferp[readout_counter++] = transfer16(lpspi,0xFFFF);
+#else
+      bufferp[readout_counter++] = SPI.transfer16(0xFFFF);
+#endif   
       if (readout_counter >= NREADOUT) {
 	/* Setup for the next state. eos comes on the 2nd clk after
 	   we're done readout. Let's give it one extra beyond that.
@@ -1466,6 +1486,11 @@ void sensor_setup() {
   SPI.begin();
   SPI.beginTransaction(spi_settings);
 
+#ifdef FASTSPI
+  saved_framesz = get_framesz( lpspi );
+  set_framesz( lpspi, 16 );
+#endif
+  
   // ============================================
   // Master Clock
   start_MasterClock();
