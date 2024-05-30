@@ -40,4 +40,4 @@ This repo and its contents are provided without warranty or representation of su
 
 If you want to use this in a product of for any commercial purpose, please contact me.
 
-Copyright 2024, M C Nelson, PhD, all rights reserved.
+Copyright 2024, M C Nelson, PhD, all rights reserved.  Patent pending.
