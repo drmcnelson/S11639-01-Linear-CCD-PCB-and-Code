@@ -38,6 +38,6 @@ The following shows a spectrometer built with the S11639-0 and a fluorescent lam
 ## Availability
 This repo and its contents are provided without warranty or representation of suitability for any purpose whatsoever.  Feel free to build this for your own use or in your lab, and please remember to include appropriate acknowledgement in your publications.  The intent is to support access to doing good science for those who are not as well funded as others.  If you want a preassembled board,  please contact me.  (The parts are small, you might prefer this).
 
-If you want to use this in a product of for any commercial purpose, please have the decency to contact me.
+If you want to use this in a product of for any commercial purpose, please contact me.
 
 Copyright 2024, M C Nelson, PhD, all rights reserved.
