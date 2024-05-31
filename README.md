@@ -2,7 +2,9 @@
 This repo proovides electronics, firmware and host software for the Hamamatsu S11639-01, a linear CCD sensor that has very low dark noise at 0.2mV and a very large dynamic range at 10,0000. 
 The electrical design is implemented as a two board set, sensor and controller.
 The sensor board has a socket for the sensor and a low noise front-end with 16 bit ADC and SPI interface.
-The controller board hosts a Teensy 4.0 or 3.2 and has a matching ribbon connector to interface to the sensor board.  We separate the sensor and controller for mechanical stability, for example in a sensitive instrument such as a spectrometer.  The firmware provides high end functionality including clocked, triggered, and gated operation.
+The controller board hosts a Teensy 4.0 or 3.2 and has a matching ribbon connector to interface to the sensor board.
+We separate the sensor and controller for mechanical stability, for example in a sensitive instrument such as a spectrometer.
+The firmware provides high end functionality including clocked, triggered, and gated operation.
 
 In the firmware, codes that are specific to the sensor are in a separate c++ file and header.  The "sketch file" implements a command interface and calls the sensor code to do the "work" of collecting frames in various operating modes.  The codes throughout, use the standard Arduino libraries plus a small number of optional register level enhancements for the i.MX RT MCU that provide faster and more constant interrupt latency and SPI transfers with less overhead.
 
