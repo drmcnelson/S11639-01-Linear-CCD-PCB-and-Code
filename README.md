@@ -1,5 +1,5 @@
 # S11639-01-Linear-CCD-PCB-and-Code
-This repo proovides electronics, firmware and host software for the Hamamatsu S11639-01, a linear CCD sensor that has very low dark noise at 0.2mV and a very large dynamic range at 10,0000. 
+This repo provides electronics, firmware and host software for the Hamamatsu S11639-01, a linear CCD sensor that has very low dark noise at 0.2mV and a very large dynamic range at 10,0000. 
 The electrical design is implemented as a two board set, sensor and controller.
 The sensor board has a socket for the sensor and a low noise front-end with 16 bit ADC and SPI interface.
 The controller board hosts a Teensy 4.0 or 3.2 and has a matching ribbon connector to interface to the sensor board.
