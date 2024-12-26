@@ -38,9 +38,13 @@ The following shows a spectrometer built with the S11639-0 and a fluorescent lam
 <img src="https://github.com/drmcnelson/S11639-01-Linear-CCD-PCB-and-Code/assets/38619857/43aa3c30-d34e-46f5-930a-90824b382119" height = "400">
 
 
-## Availability
-This repo and its contents are provided without warranty or representation of suitability for any purpose whatsoever.  Feel free to build this for your own use or in your lab, and please remember to include appropriate acknowledgement in your publications.  The intent is to support access to doing good science for those who are not as well funded as others.  If you want a preassembled board,  please contact me.  (The parts are small, you might prefer this).
+## Availability and Sponsorhip
+This repo and its contents are provided without warranty or representation of suitability for any purpose whatsoever.
 
-If you want to use this in a product of for any commercial purpose, please contact me.
+Feel free to build this for your own use or in your lab.  The intent is to support access to doing good science for those who are not as well funded as others.  Commercial use is subject to review and approval, per this criterion.
 
-Copyright 2024, M C Nelson, PhD, all rights reserved.  Patent pending.
+If you would like a preassembled board, please consider sponsoring and please contact me so that I can get a current cost of materials.
+
+Sponsorship is very much appreciated.  Please click the sponsor button and help us make this and more devices available and support our effort to make doing science more accessible.
+
+
