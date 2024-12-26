@@ -1,20 +1,22 @@
 # S11639-01-Linear-CCD-PCB-and-Code
-This repo provides electronics, firmware and host software for the Hamamatsu S11639-01, a linear CCD sensor that has very low dark noise at 0.2mV and a very large dynamic range at 10,0000. 
+This repo provides electronics, firmware and host software for the Hamamatsu S11639-01, a linear CCD sensor that has high sensitivity at 1300V/lx s and low dark noise at 0.2mV (for a 10msec exposure).  With saturation at 2V, the dynamic range is 10,000.
 The electrical design is implemented as a two board set, sensor and controller, for mechanical stability and interchangeability.
-The sensor board has a socket for the sensor and a low noise front-end with 16 bit ADC and SPI interface.
-The controller connects to the sensor and has a USB connection for a host computer.
+The sensor board has the socketed sensor, logic gates to drive the pins, and a low noise all differential analog section with a high precision differential 16 bit ADC.
+The controller operates the sensor and interacts with a host computer over USB, and has pins for trigger, gate, sync and busy signals.
+The command interface is human readable ascii, data transfers are selectable in ascii or binary.
 
-We provide repos for two controllers with matching interfaces for the sensor board,
+We provide repos for two controllers for the sensor board,
 the [Teensy 4.0 based controller](https://github.com/drmcnelson/SPI-Instrumentation-Controller-T4.0) 
 and the [Teensy 4.1 based controller](https://github.com/drmcnelson/SPI-Instrumentation-Controller-T4.1).
-These are preferred over the UNO R4 because the T4 provides faster transfers between both the sensor and the host computer and the faster processor.
+These are preferred over the UNO R4 because the T4 provides faster transfers between both the sensor and controller and between the controller and host computer and because it has the faster more capable M7 cross-over processor.
 The controllers are designed with standardized interfaces for signals and power for all of the boards in our SPI instrumentation project.
 
 The firmware, which runs in the controller, provides high end functionality including clocked, triggered, and gated operation.
 In the firmware, codes that are specific to the sensor are in a separate c++ file and header.  The "sketch file" implements a command interface and calls the sensor code to do the "work" of collecting frames in various operating modes.  The codes throughout, use the standard Arduino libraries plus a small number of optional register level enhancements for the i.MX RT MCU that provide faster and more constant interrupt latency and SPI transfers with less overhead.
 
 ## Sensor board details
-The following image shows the circuit side of the sensor board with the high precision low noise differential front end (dual opamp lower right, adjacent to the video out pin from the sensor) interfaced to a differential 16bit 1MSPS ADC, and logic level converters (center) for the external digital interface.  The sensor is socketed on the reverse side. 
+The following image shows the circuit side of the sensor board with the high precision low noise differential front end (dual opamp lower right, adjacent to the video out pin from the sensor) interfaced to a differential 16bit 1MSPS ADC, and logic level converters (center) for the external digital interface.
+The sensor is socketed on the reverse side. 
 SPI and logic signals are brought to the double row header at the top edge of the board (ribbon cable compatible).
 The external logic level is set by VDD supplied by the controller card.
 Power for the sensor and other circuit elements is 5V and supplied by a separate connector.
@@ -25,6 +27,7 @@ The output from the analog section is available on the three pin header center b
 The trim pot should be set to 1.6V for sensors meeting the "typical" spec with output from 0.6V to 2.6V, there is a test point next to the trim pot labeled Voffset where the offset voltage can be measured.
 
 <img src="https://github.com/drmcnelson/S11639-01-Linear-CCD-PCB-and-Code/assets/38619857/b093d3cd-5eb3-4b4a-999f-7dd358d39edb" height = "320">
+
 <img src="https://github.com/drmcnelson/S11639-01-Linear-CCD-PCB-and-Code/assets/38619857/e8fe5499-a028-4e19-9836-888f1290f96d" height = "200">
 
 ## T4.0 Controller board details
