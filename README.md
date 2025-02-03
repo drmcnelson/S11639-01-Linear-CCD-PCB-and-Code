@@ -26,7 +26,7 @@ The jumper and header (lower left) selects the internal 4.096V reference or prov
 The output from the analog section is available on the three pin header center bottom.
 The trim pot should be set to 1.6V for sensors meeting the "typical" spec with output from 0.6V to 2.6V, there is a test point next to the trim pot labeled Voffset where the offset voltage can be measured.
 
-<img src="https://github.com/drmcnelson/S11639-01-Linear-CCD-PCB-and-Code/assets/38619857/b093d3cd-5eb3-4b4a-999f-7dd358d39edb" height = "320">
+<img src="./Images/S11639-01_SPIboard_top.png" height = "320">
 
 <img src="https://github.com/drmcnelson/S11639-01-Linear-CCD-PCB-and-Code/assets/38619857/e8fe5499-a028-4e19-9836-888f1290f96d" height = "200">
 
