@@ -11,7 +11,7 @@ N.B.  This is an update to bring the S11639-0 board into compatibility with the 
 
 This version of the board is designed to be used with either of the our controllers, the [Teensy 4.0 based controller](https://github.com/drmcnelson/SPI-Instrumentation-Controller-T4.0) 
 and the [Teensy 4.1 based controller](https://github.com/drmcnelson/SPI-Instrumentation-Controller-T4.1).
-In principle, the S11639-01 could be used with a number of different Arduino boards.  After some extensive study anddetailed comparison, we prefer the Teensy 4.x boards.  These have good implementations for 16 bit transfers over SPI and they have 480MHz USB for fast transfers to the host computer.
+In principle, the S11639-01 could be used with a number of different Arduino boards.  After some extensive and detailed testing, we prefer the Teensy 4.x boards.  These have good implementations for 16 bit transfers over SPI and they have 480MHz USB for fast transfers to the host computer.
 
 The firmware, which runs in the controller, provides high end functionality including clocked, triggered, and gated operation.
 In the firmware, codes that are specific to the sensor are in a separate c++ file and header.  The "sketch file" implements a command interface and calls the sensor code to do the "work" of collecting frames in various operating modes.  The codes throughout, use the standard Arduino libraries plus a small number of optional register level enhancements for the i.MX RT MCU that provide faster and more constant interrupt latency and SPI transfers with less overhead.
