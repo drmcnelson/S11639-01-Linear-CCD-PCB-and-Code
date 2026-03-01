@@ -1,4 +1,8 @@
 # S11639-01-Linear-CCD-PCB-and-Code
+
+By Dr M. C. Nelson, Copyright 2020-2025
+Original repository [github.com/drmcnelson/S11639-01-Linear-CCD-PCB-and-Code](https://github.com/drmcnelson/S11639-01-Linear-CCD-PCB-and-Code)
+
 This repo provides electronics, firmware and host software for the Hamamatsu S11639-01, a linear CCD sensor that has high sensitivity at 1300V/lx s and low dark noise at 0.2mV (for a 10msec exposure).  With saturation at 2V, the dynamic range is 10,000.
 The electrical design is implemented as a two board set, sensor and controller, for mechanical stability and interchangeability.
 The sensor board has the socketed sensor, logic gates to drive the pins, and a low noise all differential analog section with a high precision differential 16 bit ADC.
